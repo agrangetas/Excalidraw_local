@@ -24,3 +24,12 @@ services:
     ports:
       - "8085:80"
     restart: unless-stopped
+
+  excalidraw-api:
+    build: ./python_service
+    container_name: excalidraw_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/workspace
+    restart: unless-stopped

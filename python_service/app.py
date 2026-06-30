@@ -179,6 +179,79 @@ class FrameRequest(BaseModel):
 class CompileRequest(BaseModel):
     filename: str
 
+class TitleRequest(BaseModel):
+    title: str
+    subtitle: Optional[str] = None
+
+@app.post("/clear")
+def clear_scene():
+    scene = {
+        "type": "excalidraw",
+        "version": 2,
+        "source": "https://excalidraw.com",
+        "elements": [],
+        "appState": {
+            "theme": "dark",
+            "viewBackgroundColor": "#0b0f19"
+        },
+        "files": {}
+    }
+    save_scene(scene)
+    return {"status": "success", "message": "Scene cleared"}
+
+@app.post("/title")
+def set_title(req: TitleRequest):
+    scene = load_scene()
+    
+    # Remove existing title_text and subtitle_text if any
+    scene["elements"] = [el for el in scene["elements"] if el["id"] not in ("title_text", "subtitle_text")]
+    
+    title_el = {
+        "id": "title_text",
+        "type": "text",
+        "x": 50,
+        "y": 50,
+        "width": 800,
+        "height": 40,
+        "strokeColor": "#f8fafc",
+        "backgroundColor": "transparent",
+        "fillStyle": "hachure",
+        "strokeWidth": 1,
+        "roughness": 0,
+        "opacity": 100,
+        "text": req.title,
+        "fontSize": 24,
+        "fontFamily": 2,
+        "textAlign": "left",
+        "verticalAlign": "middle"
+    }
+    scene["elements"].insert(0, title_el)
+    
+    if req.subtitle:
+        sub_el = {
+            "id": "subtitle_text",
+            "type": "text",
+            "x": 50,
+            "y": 90,
+            "width": 800,
+            "height": 24,
+            "strokeColor": "#94a3b8",
+            "backgroundColor": "transparent",
+            "fillStyle": "hachure",
+            "strokeWidth": 1,
+            "roughness": 0,
+            "opacity": 100,
+            "text": req.subtitle,
+            "fontSize": 14,
+            "fontFamily": 2,
+            "textAlign": "left",
+            "verticalAlign": "middle"
+        }
+        scene["elements"].insert(1, sub_el)
+        
+    save_scene(scene)
+    return {"status": "success", "message": "Title updated"}
+
 @app.get("/layout")
 def get_scene_layout():
     scene = load_scene()
@@ -316,7 +389,7 @@ def add_node(req: NodeRequest):
                 
     save_scene(scene)
     return {
-        "success": true,
+        "success": True,
         "node_id": node_id,
         "message": f"Node '{req.label}' successfully created at physical coordinates X:{x}, Y:{y}."
     }
@@ -443,7 +516,7 @@ def connect_nodes(req: ConnectRequest):
         
     save_scene(scene)
     return {
-        "success": true,
+        "success": True,
         "connection_id": arrow_id,
         "message": f"Successfully linked {req.from_node_id} to {req.to_node_id} with a {req.style} arrow."
     }
@@ -509,7 +582,7 @@ def update_node(req: UpdateNodeRequest):
         
     save_scene(scene)
     return {
-        "success": true,
+        "success": True,
         "node_id": req.node_id,
         "mutated_fields": mutated_fields
     }
@@ -550,7 +623,7 @@ def delete_node(req: DeleteNodeRequest):
                     
     save_scene(scene)
     return {
-        "success": true,
+        "success": True,
         "deleted_node_id": req.node_id,
         "cascade_deleted_arrows": cascade_deleted_arrows
     }
@@ -603,7 +676,7 @@ def create_boundary_frame(req: FrameRequest):
                 
     save_scene(scene)
     return {
-        "success": true,
+        "success": True,
         "frame_id": frame_id
     }
 
@@ -631,7 +704,7 @@ def compile_and_save(req: CompileRequest):
     save_scene(compiled_scene, custom_path=custom_path)
     
     return {
-        "success": true,
+        "success": True,
         "filename": req.filename,
         "total_elements": len(filtered_elements),
         "download_url": f"http://localhost:3035/{req.filename}"

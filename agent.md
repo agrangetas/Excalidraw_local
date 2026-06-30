@@ -1,0 +1,1 @@
+Les skills sont disponibles dans .agents/skills/

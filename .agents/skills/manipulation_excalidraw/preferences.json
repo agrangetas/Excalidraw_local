@@ -1,0 +1,34 @@
+[
+  {
+    "id": "pref_top_canvas_margin",
+    "preference": "Toujours décaler les coordonnées Y du premier composant ou cadre de l'infrastructure de 200px minimum par rapport au haut du canvas pour éviter que les titres ou les étiquettes de groupes ne soient coupés.",
+    "created_at": "2026-06-30T22:36:00Z",
+    "priority": "high",
+    "frequency": 2,
+    "active": true
+  },
+  {
+    "id": "pref_no_line_collision",
+    "preference": "Tracer les lignes et flèches de liaison en évitant strictement les collisions (traversées de boîtes de composants).",
+    "created_at": "2026-06-30T21:35:00Z",
+    "priority": "high",
+    "frequency": 1,
+    "active": true
+  },
+  {
+    "id": "pref_arrow_labels",
+    "preference": "Ajouter des étiquettes textuelles de petite taille à côté des flèches pour expliciter les étapes et protocoles des flux de données.",
+    "created_at": "2026-06-30T21:35:00Z",
+    "priority": "medium",
+    "frequency": 1,
+    "active": true
+  },
+  {
+    "id": "pref_group_spacing",
+    "preference": "Laisser un espace vertical d'au moins 30 à 40px entre deux cadres de groupes pointillés (containers) adjacents pour éviter un effet de double ligne confuse.",
+    "created_at": "2026-06-30T22:36:00Z",
+    "priority": "medium",
+    "frequency": 1,
+    "active": true
+  }
+]

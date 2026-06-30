@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    container_name: excalidraw_frontend
+    ports:
+      - "3035:80"
+    environment:
+      - VITE_APP_WS_SERVER_URL=http://localhost:8085
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        echo "Patching hardcoded collaboration server URL to point to: $$VITE_APP_WS_SERVER_URL"
+        find /usr/share/nginx/html -type f -name "*.js" -exec sed -i "s|https://oss-collab\.excalidraw\.com|$$VITE_APP_WS_SERVER_URL|g" {} +
+        echo "Starting Nginx..."
+        nginx -g "daemon off;"
+    restart: unless-stopped
+
+  excalidraw-room:
+    image: excalidraw/excalidraw-room:latest
+    container_name: excalidraw_backend
+    ports:
+      - "8085:80"
+    restart: unless-stopped

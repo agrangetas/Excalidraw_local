@@ -632,11 +632,11 @@ def delete_node(req: DeleteNodeRequest):
 def create_boundary_frame(req: FrameRequest):
     scene = load_scene()
     
-    frame_x = COL_START_MARGIN + (req.start_col) * COL_WIDTH - 20
-    frame_y = ROW_START_MARGIN + (req.start_row) * ROW_HEIGHT - 30
+    frame_x = COL_START_MARGIN + req.start_col * COL_WIDTH + 5
+    frame_y = ROW_START_MARGIN + req.start_row * ROW_HEIGHT + 5
     
-    end_x = COL_START_MARGIN + (req.end_col + 1) * COL_WIDTH - 20
-    end_y = ROW_START_MARGIN + (req.end_row + 1) * ROW_HEIGHT - 10
+    end_x = COL_START_MARGIN + (req.end_col + 1) * COL_WIDTH - 5
+    end_y = ROW_START_MARGIN + (req.end_row + 1) * ROW_HEIGHT - 5
     
     frame_w = end_x - frame_x
     frame_h = end_y - frame_y
